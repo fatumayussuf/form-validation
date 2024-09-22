@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form with Remember Me & Forgot Password</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f7f6;
+        animation: fadeInBackground 1.5s ease-in-out;
+      }
+
+      @keyframes fadeInBackground {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      form {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        animation: slideInForm 1s ease-in-out;
+      }
+
+      @keyframes slideInForm {
+        from {
+          transform: translateY(-30px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .login-header {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #6ab7ff;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .login-header img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        animation: bounce 1s infinite;
+      }
+
+      @keyframes bounce {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        transition: border 0.3s;
+        font-size: 1rem;
+      }
+
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="password"]:focus {
+        outline: none;
+        border-color: #6ab7ff;
+        box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+      }
+
+      button {
+        padding: 12px;
+        border: none;
+        background-color: #6ab7ff;
+        color: white;
+        font-size: 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #559fd9;
+        transform: scale(1.05);
+      }
+
+      button:active {
+        transform: scale(0.95);
+      }
+
+      #error {
+        color: red;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      .forgot-password {
+        text-decoration: none;
+        color: #6ab7ff;
+        font-size: 0.9rem;
+        transition: color 0.3s;
+      }
+
+      .forgot-password:hover {
+        color: #559fd9;
+      }
+
+    </style>
+</head>
+<body>
+    <form action="" id="myForm">
+        <div class="login-header">
+            <!-- Login image -->
+            <img src="login.jpg" alt="Login Icon" />
+            <p>Login</p>
+        </div>
+        <input type="text" name="name" placeholder="Enter your name" required id="username">
+        <input type="email" name="email" placeholder="Enter your email" required id="email">
+        <input type="password" name="password" placeholder="Enter your password" required id="password">
+        
+        <!-- Remember Me & Forgot Password -->
+        <div class="options">
+            <label class="remember-me">
+                <input type="checkbox" id="rememberMe">
+                Remember Me
+            </label>
+            <a href="#" class="forgot-password" id="forgotPasswordLink">Forgot Password?</a>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+    <div id="error"></div>
+
+    <script>
+        // Handle form submit
+        document.getElementById("myForm").addEventListener('submit', function(event){
+            event.preventDefault();
+            let errors=[];
+            let name = document.getElementById("username").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let rememberMe = document.getElementById("rememberMe").checked;
+
+            if(name.length < 3){
+                errors.push("Name should be at least 3 characters long");
+            }
+            if(email.indexOf('@') == -1){
+                errors.push("Invalid email");
+            }
+            if (password.length < 6){
+                errors.push("Password should be at least 6 characters long");
+            }
+
+            if(errors.length > 0){
+                document.getElementById("error").innerHTML= errors.join('<br>');
+            } else {
+                if (rememberMe) {
+                    // Store name and email in localStorage
+                    localStorage.setItem("username", name);
+                    localStorage.setItem("email", email);
+                } else {
+                    // Clear localStorage
+                    localStorage.removeItem("username");
+                    localStorage.removeItem("email");
+                }
+                alert("Form submitted successfully");
+            }
+        });
+
+        // Load saved data from localStorage
+        window.onload = function() {
+            if (localStorage.getItem("username") && localStorage.getItem("email")) {
+                document.getElementById("username").value = localStorage.getItem("username");
+                document.getElementById("email").value = localStorage.getItem("email");
+                document.getElementById("rememberMe").checked = true;
+            }
+        };
+
+        // Forgot Password functionality
+        document.getElementById("forgotPasswordLink").addEventListener('click', function(event){
+            event.preventDefault();
+            alert("A password reset link has been sent to your email.");
+        });
+    </script>
+</body>
+</html>
