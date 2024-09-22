@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-image: url('https://static.vecteezy.com/system/resources/previews/007/164/537/non_2x/fingerprint-identity-sensor-data-protection-system-podium-hologram-blue-light-and-concept-free-vector.jpg'); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f7f6;
+            animation: fadeInBackground 1.5s ease-in-out;
+        }
+
+        @keyframes fadeInBackground {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        form {
+            background-color: rgb(16, 25, 148, 0.8);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: slideInForm 1s ease-in-out;
+        }
+
+        @keyframes slideInForm {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: #6ab7ff;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            transition: border 0.3s;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            border-color: #6ab7ff;
+            box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            background-color: #6ab7ff;
+            color: white;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #559fd9;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #error {
+            color: red;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .login-link {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .login-link a {
+            text-decoration: none;
+            color: #6ab7ff;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #559fd9;
+        }
+    </style>
+</head>
+<body>
+    <form action="" id="signUpForm">
+     
+         <h2>Create Account</h2>
+        <input type="text" name="name" placeholder="Enter your name" required id="signup-username">
+        <input type="email" name="email" placeholder="Enter your email" required id="signup-email">
+        <input type="password" name="password" placeholder="Enter your password" required id="signup-password">
+        <input type="password" name="confirmPassword" placeholder="Confirm your password" required id="confirm-password">
+
+        <button type="submit">Create Account</button>
+
+        <!-- <div id="error"></div> -->
+    <div class="login-link">
+        Already have an account? <a href="login.html" id="loginLink">Log in</a>
+    </div>
+    </form>
+    
+
+    <script>
+        document.getElementById("signUpForm").addEventListener('submit', function(event){
+            event.preventDefault();
+            let name = document.getElementById("signup-username").value;
+            let email = document.getElementById("signup-email").value;
+            let password = document.getElementById("signup-password").value;
+            let confirmPassword = document.getElementById("confirm-password").value;
+            let errors = [];
+
+            if (name.length < 3) errors.push("Name should be at least 3 characters.");
+            if (email.indexOf('@') === -1) errors.push("Invalid email.");
+            if (password.length < 6) errors.push("Password should be at least 6 characters.");
+            if (password !== confirmPassword) errors.push("Passwords do not match.");
+
+            if (errors.length > 0) {
+                document.getElementById("error").innerHTML = errors.join('<br>');
+            } else {
+                localStorage.setItem("username", name);
+                localStorage.setItem("email", email);
+                localStorage.setItem("password", password);
+                alert("Account created successfully!");
+                window.location.href = "login.html";
+            }
+        });
+    </script>
+</body>
+</html>
